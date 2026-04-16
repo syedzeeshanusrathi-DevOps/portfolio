@@ -209,4 +209,105 @@ document.addEventListener('DOMContentLoaded', () => {
   );
 
   scrollTargets.forEach((el) => observer.observe(el));
+
+  // Terminal typing animation — types every line sequentially
+  const terminalScript = [
+    { type: 'cmd', text: 'whoami' },
+    { type: 'out', text: 'Senior DevOps Engineer' },
+    { type: 'cmd', text: 'cat stack.yml' },
+    { type: 'out', text: 'cloud: [AWS, Azure, GCP]' },
+    { type: 'out', text: 'iac: [Terraform, Ansible]' },
+    { type: 'out', text: 'containers: [Docker, Kubernetes]' },
+    { type: 'out', text: 'ci_cd: [Jenkins, GitHub Actions]' },
+    { type: 'out', text: 'monitoring: [Prometheus, Grafana]' },
+    { type: 'cmd', text: 'uptime' },
+    { type: 'out', text: '8+ years, 30+ projects, 99.9% SLA' },
+    { type: 'cmd', text: 'kubectl get pods --all-namespaces' },
+    { type: 'out', text: 'All pods running ✓' },
+    { type: 'cmd', text: 'terraform plan' },
+    { type: 'out', text: 'No changes. Infrastructure is up-to-date.' },
+  ];
+
+  const termBody = document.getElementById('terminal-body');
+  if (termBody) {
+    let lineIdx = 0;
+
+    function createLine(cls) {
+      const div = document.createElement('div');
+      div.className = 'terminal-line ' + cls;
+      return div;
+    }
+
+    function typeCommand(text, callback) {
+      const line = createLine('');
+      const prompt = document.createElement('span');
+      prompt.className = 't-prompt';
+      prompt.textContent = '$';
+      const cmd = document.createElement('span');
+      cmd.className = 't-cmd terminal-typing';
+      line.appendChild(prompt);
+      line.append(' ');
+      line.appendChild(cmd);
+      termBody.appendChild(line);
+      termBody.scrollTop = termBody.scrollHeight;
+
+      let i = 0;
+      function tick() {
+        cmd.textContent = text.slice(0, i + 1);
+        i++;
+        termBody.scrollTop = termBody.scrollHeight;
+        if (i < text.length) {
+          setTimeout(tick, 40 + Math.random() * 40);
+        } else {
+          cmd.classList.remove('terminal-typing');
+          setTimeout(callback, 400);
+        }
+      }
+      setTimeout(tick, 100);
+    }
+
+    function printOutput(text, callback) {
+      const line = createLine('t-output');
+      line.textContent = text;
+      line.style.opacity = '0';
+      line.style.transform = 'translateY(4px)';
+      termBody.appendChild(line);
+      // trigger reflow then animate in
+      requestAnimationFrame(() => {
+        line.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        line.style.opacity = '1';
+        line.style.transform = 'translateY(0)';
+      });
+      termBody.scrollTop = termBody.scrollHeight;
+      setTimeout(callback, 300);
+    }
+
+    function playNext() {
+      if (lineIdx >= terminalScript.length) {
+        // Pause, clear, restart
+        setTimeout(() => {
+          termBody.style.transition = 'opacity 0.5s ease';
+          termBody.style.opacity = '0';
+          setTimeout(() => {
+            termBody.innerHTML = '';
+            termBody.style.opacity = '1';
+            lineIdx = 0;
+            playNext();
+          }, 600);
+        }, 2500);
+        return;
+      }
+
+      const entry = terminalScript[lineIdx];
+      lineIdx++;
+
+      if (entry.type === 'cmd') {
+        typeCommand(entry.text, playNext);
+      } else {
+        printOutput(entry.text, playNext);
+      }
+    }
+
+    setTimeout(playNext, 800);
+  }
 });
