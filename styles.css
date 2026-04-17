@@ -351,6 +351,43 @@ body.loaded .hero-meta-item {
   gap: 1.75rem;
 }
 
+.project-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.project-preview-card {
+  overflow: hidden;
+  border-radius: 22px;
+  border: 1px solid rgba(56, 189, 248, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow: 0 24px 40px rgba(0, 0, 0, 0.22);
+}
+
+.project-preview-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+@media (max-width: 900px) {
+  .project-preview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .section-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-preview-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ── Hero Profile Avatar ──────────────────────────────────── */
 .hero-intro-row {
   display: flex;

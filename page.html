@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Reading Nook</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-top">
+      <h1>
+        <svg class="logo-icon" viewBox="0 0 64 48" aria-hidden="true">
+          <path d="M4 8 C4 6, 6 4, 8 4 L30 4 C31 4, 32 5, 32 6 L32 44 C32 45, 31 46, 30 46 L8 46 C6 46, 4 44, 4 42 Z" fill="#c89a5b" stroke="#3b2a1a" stroke-width="1.2"/>
+          <path d="M60 8 C60 6, 58 4, 56 4 L34 4 C33 4, 32 5, 32 6 L32 44 C32 45, 33 46, 34 46 L56 46 C58 46, 60 44, 60 42 Z" fill="#a87a3a" stroke="#3b2a1a" stroke-width="1.2"/>
+          <line x1="32" y1="6" x2="32" y2="46" stroke="#3b2a1a" stroke-width="1.2"/>
+          <line x1="10" y1="14" x2="26" y2="14" stroke="#fff5dc" stroke-width="1" opacity="0.7"/>
+          <line x1="10" y1="20" x2="24" y2="20" stroke="#fff5dc" stroke-width="1" opacity="0.7"/>
+          <line x1="10" y1="26" x2="26" y2="26" stroke="#fff5dc" stroke-width="1" opacity="0.7"/>
+          <line x1="38" y1="14" x2="54" y2="14" stroke="#fff5dc" stroke-width="1" opacity="0.7"/>
+          <line x1="38" y1="20" x2="52" y2="20" stroke="#fff5dc" stroke-width="1" opacity="0.7"/>
+          <line x1="38" y1="26" x2="54" y2="26" stroke="#fff5dc" stroke-width="1" opacity="0.7"/>
+        </svg>
+        <span class="site-title">
+          <span class="title-word">The</span>
+          <span class="title-word">Reading</span>
+          <span class="title-word title-accent">Nook</span>
+        </span>
+      </h1>
+      <div id="userArea" class="user-area">
+        <button id="signInBtn" class="btn-link">Sign in</button>
+      </div>
+    </div>
+    <p class="tagline">Curl up with 200+ books — click any cover to dive in</p>
+
+    <div id="libraryStats" class="library-stats" hidden></div>
+
+    <div class="search-wrap">
+      <input
+        type="search"
+        id="searchBox"
+        placeholder="Search by title or author..."
+        autocomplete="off"
+      />
+      <span id="resultCount" class="result-count"></span>
+    </div>
+
+    <nav id="filterTabs" class="filter-tabs">
+      <button class="filter-tab active" data-filter="all">📖 Books</button>
+      <button class="filter-tab" data-filter="audiobooks">🎧 Audiobooks</button>
+      <button class="filter-tab" data-filter="read" data-auth>✓ Read</button>
+      <button class="filter-tab" data-filter="wantToRead" data-auth>🔖 Want to Read</button>
+      <button class="filter-tab" data-filter="listened" data-auth>🎧✓ Listened</button>
+      <button class="filter-tab" data-filter="wantToListen" data-auth>🎧🔖 Want to Listen</button>
+      <button class="filter-tab" data-filter="favorite" data-auth>★ Favorites</button>
+    </nav>
+
+    <nav id="alphaNav" class="alpha-nav" aria-label="Jump to letter"></nav>
+  </header>
+
+  <div id="signInBanner" class="signin-banner" hidden>
+    🔒 <strong>Sign in</strong> to open and read any book.
+    <button id="bannerSignIn" class="btn-link">Sign in</button>
+  </div>
+
+  <main>
+    <div id="library" class="library"></div>
+    <p id="emptyState" class="empty-state" hidden>No books match.</p>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; <span id="year"></span> The Reading Nook</p>
+  </footer>
+
+  <!-- Auth modal -->
+  <div id="authModal" class="modal" hidden>
+    <div class="modal-card">
+      <button class="modal-close" id="closeModal" aria-label="Close">&times;</button>
+      <h2 id="authTitle">Sign in</h2>
+      <form id="authForm">
+        <label>
+          Email
+          <input type="email" id="authEmail" required autocomplete="email" />
+        </label>
+        <label>
+          Password
+          <input type="password" id="authPassword" required minlength="6" autocomplete="current-password" />
+        </label>
+        <button type="submit" class="btn-primary" id="authSubmit">Sign in</button>
+        <p class="auth-error" id="authError" hidden></p>
+        <p class="auth-toggle">
+          <span id="authToggleText">Don't have an account?</span>
+          <button type="button" class="btn-link" id="authToggle">Create one</button>
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
+
